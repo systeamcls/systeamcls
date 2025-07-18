@@ -1,0 +1,48 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
+class MenuItem extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'user_id',
+        'name',
+        'description',
+        'price',
+        'image',
+        'category',
+        'is_available',
+    ];
+
+    protected $casts = [
+        'price' => 'decimal:2',
+        'is_available' => 'boolean',
+    ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function orderItems(): HasMany
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
+    public function scopeAvailable($query)
+    {
+        return $query->where('is_available', true);
+    }
+
+    public function scopeByCategory($query, $category)
+    {
+        return $query->where('category', $category);
+    }
+}
