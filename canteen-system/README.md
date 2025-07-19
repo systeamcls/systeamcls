@@ -1,61 +1,263 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🍽️ Centralized Canteen E-Commerce Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A comprehensive Laravel-based multi-tenant canteen management system with real-time features, role-based access control, and modern UI/UX design.
 
-## About Laravel
+## 🚀 Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### 👨‍💼 **Admin (Concessionaire)**
+- **Complete Dashboard**: Revenue analytics, expense tracking, staff management
+- **Multi-Tenant Management**: Oversee all tenant operations and orders
+- **Financial Control**: Track expenses, collect rental payments, manage staff salaries
+- **Real-time Monitoring**: Live order notifications from all tenants
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 🧑‍💼 **Tenants (Vendors)**
+- **Individual Panel**: Dedicated Filament admin interface
+- **Menu Management**: Create, edit, and manage menu items with images
+- **Order Processing**: Real-time order notifications and status updates
+- **Business Analytics**: Sales performance, revenue tracking, expense management
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 👤 **Customers**
+- **Modern Menu Browser**: McDonald's-style product catalog with search and filtering
+- **Smart Shopping Cart**: Slide-out cart with real-time updates
+- **Flexible Checkout**: Multiple delivery options and payment methods
+- **Guest-Friendly**: Non-registered users can order with online payment
 
-## Learning Laravel
+## 🛠️ Technology Stack
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **Backend**: Laravel 12.20
+- **Admin Panel**: Filament v3 with multi-panel architecture
+- **Authentication**: Laravel Jetstream (teams disabled)
+- **Permissions**: Spatie Laravel-Permission
+- **Real-time**: Laravel Reverb + Livewire
+- **Database**: SQLite (development) / MySQL (production)
+- **Frontend**: Livewire + Tailwind CSS + Alpine.js
+- **UI Components**: Heroicons, responsive design
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## 📦 Installation
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Prerequisites
+- PHP 8.2+
+- Composer
+- Node.js & NPM
+- SQLite or MySQL
 
-## Laravel Sponsors
+### Quick Setup
+```bash
+# Clone the repository
+git clone <repository-url>
+cd canteen-system
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+# Run the setup script
+chmod +x setup.sh
+./setup.sh
+```
 
-### Premium Partners
+### Manual Setup
+```bash
+# Install PHP dependencies
+composer install
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+# Install and build frontend assets
+npm install && npm run build
 
-## Contributing
+# Environment setup
+cp .env.example .env
+php artisan key:generate
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+# Database setup
+php artisan migrate
+php artisan db:seed --class=RoleSeeder
 
-## Code of Conduct
+# Create admin user
+php artisan make:filament-user
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# Create storage symlink
+php artisan storage:link
 
-## Security Vulnerabilities
+# Start the application
+php artisan serve
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 🎯 Quick Start Guide
 
-## License
+### 1. **Access the Application**
+- **Public Menu**: `http://localhost:8000/menu`
+- **Admin Panel**: `http://localhost:8000/admin`
+- **Checkout**: `http://localhost:8000/checkout`
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 2. **Create Your First Tenant**
+```bash
+# Create a tenant user
+php artisan tinker
+>>> $user = \App\Models\User::create(['name' => 'Pizza Corner', 'email' => 'pizza@example.com', 'password' => bcrypt('password')]);
+>>> $user->assignRole('tenant');
+```
+
+### 3. **Add Menu Items**
+- Login to admin panel as the tenant
+- Navigate to "Menu Items" → "Create"
+- Add product details, images, and pricing
+
+### 4. **Start Real-time Features**
+```bash
+# In a separate terminal
+php artisan reverb:start
+
+# Start queue worker (optional, for background jobs)
+php artisan queue:work
+```
+
+## 📊 Database Schema
+
+### Core Tables
+- **users**: Multi-role user management (admin, tenant, customer)
+- **menu_items**: Product catalog with categories and availability
+- **orders**: Customer orders with delivery and payment tracking
+- **order_items**: Individual items within orders
+- **expenses**: Business expense tracking with receipts
+- **staff**: Employee management with salary information
+- **staff_attendance**: Time tracking and payroll calculation
+- **tenant_rentals**: Rental payment management
+
+### Relationships
+```
+Users (1:N) MenuItems
+Users (1:N) Orders  
+Users (1:N) Expenses
+Orders (1:N) OrderItems
+MenuItems (1:N) OrderItems
+Staff (1:N) StaffAttendance
+```
+
+## 🎨 UI/UX Features
+
+### **Modern Menu Browser**
+- Grid layout with high-quality images
+- Category filtering and search
+- Real-time availability status
+- Responsive design for all devices
+
+### **Smart Shopping Cart**
+- Slide-out panel with smooth animations
+- Quantity management with +/- controls
+- Real-time total calculation
+- Persistent cart across sessions
+
+### **Comprehensive Checkout**
+- Multi-step form with validation
+- Delivery vs pickup options
+- Online and on-site payment methods
+- Guest checkout with restrictions
+
+## 🔐 Security & Permissions
+
+### **Role-Based Access Control**
+- **Admin**: Full system access, multi-tenant management
+- **Tenant**: Own data only, menu and order management
+- **Customer**: Public access, order placement
+
+### **Security Features**
+- CSRF protection on all forms
+- Input validation and sanitization
+- Role-based route protection
+- Secure file uploads with validation
+
+## 📈 Analytics & Reporting
+
+### **Admin Dashboard**
+- Total revenue across all tenants
+- Monthly sales trends (Chart.js)
+- Expense tracking and profit analysis
+- Staff payroll summaries
+
+### **Tenant Dashboard**
+- Individual sales performance
+- Popular menu items analysis
+- Order status distribution
+- Revenue vs expenses comparison
+
+## 🔄 Real-time Features
+
+### **Broadcasting Events**
+- **OrderPlaced**: Notifies admin and relevant tenants
+- **OrderStatusUpdated**: Updates customers and staff
+- **Multi-channel**: Public and private channels
+
+### **Live Updates**
+- Order notifications in admin panel
+- Cart updates without page refresh
+- Real-time order status changes
+
+## 🛡️ Testing
+
+```bash
+# Run PHP tests
+php artisan test
+
+# Run feature tests
+php artisan test --testsuite=Feature
+
+# Run unit tests
+php artisan test --testsuite=Unit
+```
+
+## 📝 API Documentation
+
+The system includes RESTful API endpoints for:
+- Menu item retrieval
+- Order placement and tracking
+- User authentication
+- Real-time notifications
+
+## 🚀 Deployment
+
+### **Production Setup**
+1. Configure MySQL database
+2. Set up Laravel Reverb server
+3. Configure queue workers
+4. Set up SSL certificates
+5. Configure file storage (S3/local)
+
+### **Environment Variables**
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=canteen_system
+
+BROADCAST_DRIVER=reverb
+QUEUE_CONNECTION=database
+
+REVERB_APP_ID=your-app-id
+REVERB_APP_KEY=your-app-key
+REVERB_APP_SECRET=your-app-secret
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+
+## 🆘 Support
+
+- **Documentation**: Check the `DEVELOPMENT_PROGRESS.md` file
+- **Issues**: Create an issue on GitHub
+- **Email**: support@canteen-system.com
+
+## 🎉 Acknowledgments
+
+- Laravel Team for the amazing framework
+- Filament Team for the beautiful admin panel
+- Tailwind CSS for the utility-first styling
+- Livewire for reactive components
+
+---
+
+**Built with ❤️ using Laravel, Filament, and modern web technologies.**
